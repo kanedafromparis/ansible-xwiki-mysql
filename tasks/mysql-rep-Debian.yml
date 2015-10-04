@@ -1,0 +1,94 @@
+---
+- name: Check if my_package is installed (Verifie la presence du serveur mysql)
+  become: true
+  apt: 
+    name: mysql-server
+    update_cache: true
+    state: latest  
+
+- name: Installed pyhon dep for mysql module (install la dépendance mysql)
+  become: true
+  apt: 
+    name: python-mysqldb 
+    state: latest  
+
+- name: serverid (moins de 100)
+  when: "mysql_ip.split('.')[3]|int > 100"
+  set_fact:
+    server_id: "{{ mysql_ip.split('.')[2] }}{{ mysql_ip.split('.')[3] }}"
+
+- name: server id (moins de 10)
+  when: "mysql_ip.split('.')[3]|int < 10"
+  set_fact:
+    server_id: "{{ mysql_ip.split('.')[2] }}00{{ mysql_ip.split('.')[3] }}"
+
+- name: serverid (entre de 10 et 100)
+  when: "{{ mysql_ip.split('.')[3]}}|int > 10"
+  set_fact:
+    server_id: "{{ mysql_ip.split('.')[2] }}0{{ mysql_ip.split('.')[3] }}"
+
+
+- name: Create Mysql configuration file (Cree la configuration)
+  become: true
+  template: 
+    src: "xwiki-my-cnf.j2" 
+    dest: /etc/mysql/my.cnf          
+#  notify: 
+#  - restart mysql
+
+- name: Create Mysql configuration file (Cree la configuration mysql)
+  become: true
+  template: 
+    src: "xwiki-xwiki-cnf.j2" 
+    dest: /etc/mysql/xwiki.cnf          
+#  notify: 
+#  - restart mysql
+
+
+- name: Create Application Database (crée la base de donnee)
+  become: true
+  mysql_db: 
+   name: xwiki 
+   state: present
+
+- name: Remove Test Application Database (supprime la base test)
+  become: true
+  mysql_db: 
+   name: test 
+   state: absent
+
+- name: Create Application DB User
+  become: true
+  mysql_user: 
+    name: "{{ mysql_xwiki_user }}"
+    password: "{{ mysql_xwiki_password }}" 
+    priv: "*.*:ALL"
+    host: "%" 
+    state: present
+  notify: 
+  - stop mysql
+
+- name: delete IB_lodfile files (Cree la configuration)
+  file: 
+   path: /var/lib/mysql/ib_logfile* 
+   state: absent
+  notify: 
+  - start mysql
+
+# - name: Create Application DB User
+#   become: true
+#   mysql_user: 
+#     name: "{{ mysql_xwiki_user }}"
+#     password: "{{ mysql_xwiki_password }}" 
+#     priv: "*.*:ALL"
+#     host: "localhost" 
+#     state: present
+# 
+# - name: Create Application DB User
+#   become: true
+#   mysql_user: 
+#     name: "{{ mysql_xwiki_user }}"
+#     password: "{{ mysql_xwiki_password }}" 
+#     priv: "*.*:ALL"
+#     host: "127.0.0.1" 
+#     state: present

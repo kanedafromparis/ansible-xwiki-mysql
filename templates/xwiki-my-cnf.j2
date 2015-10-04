@@ -1,0 +1,75 @@
+[client]
+port            = {{ mysql_port }}
+socket          = /var/run/mysqld/mysqld.sock
+
+# Here is entries for some specific programs
+# The following values assume you have at least 32M ram
+
+# This was formally known as [safe_mysqld]. Both versions are currently parsed.
+[mysqld_safe]
+socket          = /var/run/mysqld/mysqld.sock
+nice            = 0
+
+[mysqld]
+user            = mysql
+pid-file        = /var/run/mysqld/mysqld.pid
+socket          = /var/run/mysqld/mysqld.sock
+port            = {{ mysql_port }}
+basedir         = /usr
+datadir         = /var/lib/mysql
+tmpdir          = /tmp
+lc-messages-dir = /usr/share/mysql
+skip-external-locking
+character-set-server = utf8
+collation-server = utf8_bin
+bind-address            = 0.0.0.0
+
+key_buffer_size         = 32M
+
+key_buffer_size         = 32M
+max_allowed_packet      = 512M
+thread_stack            = 192K
+thread_cache_size       = 8
+
+myisam-recover         = BACKUP
+table_open_cache            = 1200
+#thread_concurrency     = 10
+
+query_cache_limit       = 1M
+query_cache_size        = 128M
+
+# * Logging and Replication
+# Here you can see queries with especially long duration
+slow_query_log = 1
+slow_query_log_file     = /var/log/mysql/mysql-slow.log
+long_query_time = 20
+log-queries-not-using-indexes
+
+server-id               = {{ server_id }}
+log_bin                 = /var/log/mysql/mysql-bin.log
+expire_logs_days        = 6
+max_binlog_size         = 100M
+
+default-storage-engine = innodb
+innodb_buffer_pool_size=254M
+innodb_log_file_size=64M
+innodb_log_buffer_size=6M
+innodb_file_per_table
+
+# @Todo this would be a better solution
+# ssl-ca=/etc/mysql/cacert.pem
+# ssl-cert=/etc/mysql/server-cert.pem
+# ssl-key=/etc/mysql/server-key.pem
+
+[mysqldump]
+quick
+quote-names
+max_allowed_packet      = 512M
+
+[mysql]
+#no-auto-rehash # faster start of mysql but no tab completition
+
+[isamchk]
+key_buffer              = 16M
+
+!includedir /etc/mysql/conf.d/

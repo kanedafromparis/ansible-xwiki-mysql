@@ -1,0 +1,25 @@
+---
+# handlers file
+- name: restart mysql
+  become: true
+  service: 
+    name: mysql
+    state: restarted
+
+
+- name: stop, clean and start mysql
+  become: true
+  service: 
+    name: mysql
+    state: stop
+    
+- name: start mysql
+  become: true
+  service: 
+    name: mysql
+    state: started
+
+
+# todo
+#- name: restart iptables
+#  service: name=iptables state=restarted

@@ -1,0 +1,24 @@
+---
+util_package_state: "{{ util_package_state_debian }}"
+
+util_package_states:
+  - installed
+  - latest
+  - absent
+
+#util_package_list_ansible_deps:
+#  - 
+  
+mysql_repo_file_default: "mysql-apt-config_0.3.7-1debian7_all"
+mysql_repo_URL_default: "http://repo.mysql.com/{{ mysql_repo_file_default }}.deb"
+mysql_use_distrib_version_default: true
+
+mysql_server_version_default: "5.5.44-0+deb7u1"
+mysql_host_default: "{{ ansible_hostname }}"
+mysql_ip_default: "{{ ansible_eth0.ipv4.address }}" 
+mysql_port_default: "3306"
+mysql_jdbc_drivers_version_default: "5.1.33"
+mysql_jdbc_drivers_download_URL_default : "http://central.maven.org/maven2/mysql/mysql-connector-java/{{ mysql_jdbc_drivers_version_default }}/mysql-connector-java-{{ mysql_jdbc_drivers_version }}.jar"
+mysql_jdbc_drivers_class_default: "com.mysql.jdbc.Driver"
+mysql_xwiki_user_default: xwiki
+mysql_xwiki_password_default: xwiki
