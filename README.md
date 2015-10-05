@@ -13,11 +13,22 @@ Role Variables
 --------------
 
 ### defaults/main.yml
- to be details
+mysql_use_distrib_version: "{{mysql_use_distrib_version_default}}"
+
+#
+mysql_server_version: "{{mysql_server_version_default}}"
+mysql_host: "{{ mysql_host_default }}"
+mysql_ip: "{{ mysql_ip_default }}" 
+mysql_port: "{{mysql_port_default}}"
+mysql_jdbc_drivers_version: "{{mysql_jdbc_drivers_version_default}}"
+mysql_jdbc_drivers_download_URL : "{{mysql_jdbc_drivers_download_URL_default}}"
+mysql_jdbc_drivers_class: "{{mysql_jdbc_drivers_class_default}}"
+mysql_xwiki_user: "{{mysql_xwiki_user_default}}"
+mysql_xwiki_password: "{{mysql_xwiki_password_default}}"
 
 ### vars/main.yml
-
-NTR (nothing to report)
+NTP
+ this are defined for various OS, currently only debian-7 has been set
 
 Dependencies
 ------------
@@ -29,7 +40,7 @@ Including an example of how to use your role (for instance, with variables passe
 
     - hosts: servers 
       vars:
-        java_versions: oracle-jdk7-installer  			
+          			
       roles:      
       - {role: ansible-xwiki-mysql}
       
