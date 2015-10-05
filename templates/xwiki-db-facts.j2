@@ -1,0 +1,13 @@
+{ "__comment": "I am not certain this is necessary",
+  "dtb": {
+			"xwiki_db_host" : "{{ mysql_host | default(ansible_hostname) }}",
+			"xwiki_db_port" : "{{ mysql_port | default(ansible_eth0.ipv4.address) }}",
+			"xwiki_db_jdbc_drivers_class" : "{{ mysql_jdbc_drivers_class | default(mysql_jdbc_drivers_class_default) }}",
+      "xwiki_db_jdbc_drivers_download_URL" : "{{ mysql_jdbc_drivers_download_URL | default(mysql_jdbc_drivers_download_URL_default) }}",
+      "xwiki_db_user" : "{{ mysql_xwiki_user | default(mysql_xwiki_user_default) }}",
+			"xwiki_db_password" : "{{ mysql_xwiki_password | default(mysql_xwiki_password_default) }}",
+			"xwiki_jdbc_url" : "jdbc:mysql://{{mysql_host}}:{{mysql_port}}/xwiki",
+			"xwiki_jdbc_hibernate_dialect" : "{{mysql_jdbc_hibernate_dialect | default(mysql_jdbc_hibernate_dialect_default)}}"
+
+		}
+}

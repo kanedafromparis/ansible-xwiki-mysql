@@ -53,7 +53,18 @@
   register: util_registered_install_local_util_facts
   template:
     src: xwiki-mysql-facts.j2
-    dest: /etc/ansible/facts.d/xwiki-mysql-util.fact
+    dest: /etc/ansible/facts.d/xwiki_mysql.fact
+    owner: 0
+    group: 0
+    mode: 0644
+
+- name: Install local util facts
+  tags: util
+  become: yes
+  register: util_registered_install_local_util_facts
+  template:
+    src: xwiki-db-facts.j2
+    dest: /etc/ansible/facts.d/xwiki_db.fact
     owner: 0
     group: 0
     mode: 0644
