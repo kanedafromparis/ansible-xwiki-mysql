@@ -1,5 +1,4 @@
 ---
-util_persistent_data_path_remote: "{{ ansible_local.general.persistent_data_path|default(\"/usr/local/src/ansible/data\") }}"
 mysql_use_distrib_version: "{{mysql_use_distrib_version_default}}"
 
 #
