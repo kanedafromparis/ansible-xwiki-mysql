@@ -1,0 +1,20 @@
+---
+- name: Check if my_package is installed
+  - apt: name=mysql_repo_file_default state=present  
+    failed_when: my_package_check_deb.rc > 1
+    changed_when: my_package_check_deb.rc == 1
+
+- name: Download my_package
+  get_url: 
+    url="{{ mysql_repo_URL }}"
+    dest="{{persistent_data_path}}/{{ mysql_repo_file }}.deb"
+  when: vagrant_check_deb.rc == 1
+  
+- name: Install my_package
+  apt: deb="{{persistent_data_path}}/{{ mysql_repo_file }}.deb"
+  sudo: true
+  when: vagrant_check_deb.rc == 1
+
+- name: Check if my_package is installed (Verifie la presence du serveur)
+  become: true
+  apt: "name=mysql-server={{mysql_server_version}} state=present" 

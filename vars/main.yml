@@ -1,0 +1,18 @@
+---
+util_supported_os_families:
+#  - Archlinux
+  - Debian
+#  - RedHat
+
+util_supported_os_distributions:
+#  - Archlinux
+#  - CentOS
+  - Debian
+#  - Fedora
+#  - RedHat
+#  - Ubuntu
+
+util_init_systems:
+  - systemd
+#  - sysvinit
+#  - upstart
